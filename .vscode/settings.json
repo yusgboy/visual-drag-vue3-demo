@@ -7,6 +7,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
     "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": true
   },
   "[vue]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint"
@@ -17,4 +18,10 @@
     "typescript",
     "typescriptreact",
   ],
+  "stylelint.validate": [
+    "css",
+    "less",
+    "vue",
+    "html"
+  ]
 }
