@@ -1,16 +1,17 @@
 {
-  "prettier.enable": false,
   "css.validate": false,
   "less.validate": false,
   "scss.validate": false,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
-    "source.fixAll.eslint": "explicit",
-    "source.fixAll.stylelint": "explicit"
+    "source.fixAll.stylelint": "explicit",
+    "source.fixAll.eslint": "explicit"
+
   },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[vue]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    "editor.defaultFormatter": "stylelint.vscode-stylelint"
   },
   "eslint.validate": [
     "javascript",

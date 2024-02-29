@@ -9,13 +9,16 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "lint:css": "stylelint \"./**/*.{css,less,vue,html}\" --fix",
+    "format": "prettier --write \"./**/*.{html,vue,ts,js,json,md}\"",
     "prepare": "husky install"
   },
   "lint-staged": {
-    "src/**/*.{vue,less,css,html}": "stylelint --fix",
-    "src/**/*.{js,jsx}": "eslint --fix"
+    "src/**/*.{css,less,vue,html,ts,js,json,md}": "prettier --write",
+    "src/**/*.{css,less,vue,html}": "stylelint --fix",
+    "src/**/*.{vue,js,jsx,ts,tsx,cjs,cts,mjs,mts}": "eslint --fix"
   },
   "dependencies": {
+    "element-plus": "^2.5.6",
     "less": "^4.2.0",
     "pinia": "^2.1.7",
     "vue": "^3.4.19",
@@ -30,12 +33,15 @@
     "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-vue3-ts": "^0.2.4",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-vue": "^9.22.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "postcss": "^8.4.35",
     "postcss-html": "^1.6.0",
     "postcss-less": "^6.0.0",
+    "prettier": "^3.2.5",
     "stylelint": "^16.2.1",
     "stylelint-config-standard": "^36.0.0",
     "stylelint-config-standard-less": "^3.0.1",
