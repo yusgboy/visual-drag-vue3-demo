@@ -10,3 +10,13 @@ export function getStyle(style: Style) {
     })
     return resultStyle
 }
+
+export function getComponentRotatedStyle(style: Style) {
+    const resultStyle = { ...style }
+    if (style.rotate !== 0) {
+    } else {
+        resultStyle.bottom = parseInt(style.top) + parseInt(style.height)
+        resultStyle.right = parseInt(style.left) + parseInt(style.width)
+    }
+    return resultStyle
+}

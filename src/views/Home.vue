@@ -10,7 +10,7 @@
                     <Editor ref="editor"></Editor>
                 </div>
             </div>
-            <div class="right">right</div>
+            <div class="right"></div>
         </div>
     </div>
 </template>
@@ -23,7 +23,7 @@ import type InstanceType from 'vue'
 import { ref } from 'vue'
 import { useComponentStore } from '@/store'
 import customComponentList from '@/customComponent/customComponentList'
-import { deepClone } from '@/utils/utils'
+import { deepClone, generateID } from '@/utils/utils'
 
 const editor = ref<InstanceType<typeof Editor> | null>(null)
 
@@ -37,6 +37,7 @@ const handleDrop = (e: DragEvent) => {
         const component = deepClone(customComponentList[index])
         component.style.left = e.clientX - rectInfo.x + ''
         component.style.top = e.clientY - rectInfo.y + ''
+        component.id = generateID()
         addComponent({ component })
     }
 }

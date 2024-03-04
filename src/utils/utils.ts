@@ -1,3 +1,5 @@
+import { nanoid } from 'nanoid'
+
 export function deepClone<T>(obj: T, weakMap = new WeakMap()): T {
     if (typeof obj !== 'object' || obj == null) {
         return obj
@@ -12,4 +14,8 @@ export function deepClone<T>(obj: T, weakMap = new WeakMap()): T {
         }
     }
     return newObj
+}
+
+export function generateID() {
+    return nanoid()
 }

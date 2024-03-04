@@ -13,6 +13,5 @@ export const registerCompoent = (app: App) => {
             `${key}Attr`,
             defineAsyncComponent(() => import(`@/customComponent/${key}/Attr.vue`))
         )
-        console.log(app)
     })
 }

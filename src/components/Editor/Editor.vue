@@ -6,9 +6,14 @@
             :key="index"
             :defaultStyle="item.style"
             :style="getStyle(item.style)"
+            :active="item.id === curComponent?.id"
+            :element="item"
+            :index="index"
         >
-            <component :is="item.component" :propValue="item.propValue" :style="getStyle(item.style)"></component>
+            <component :is="item.component" class="component" :propValue="item.propValue" :style="getStyle(item.style)">
+            </component>
         </Shap>
+        <MarkLine></MarkLine>
     </div>
 </template>
 
@@ -18,9 +23,10 @@ import Grid from './Grid.vue'
 import Shap from '@/components/Shap.vue'
 import { storeToRefs } from 'pinia'
 import { getStyle } from '@/utils/style'
+import MarkLine from '../MarkLine.vue'
 
 const store = useComponentStore()
-const { componentData } = storeToRefs(store)
+const { componentData, curComponent } = storeToRefs(store)
 </script>
 <style lang="less" scoped>
 .editor {

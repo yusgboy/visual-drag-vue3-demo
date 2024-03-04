@@ -25,6 +25,7 @@ export const commonAttr = {
 
 const list = [
     {
+        id: '',
         component: 'VButton',
         label: '按钮',
         propValue: '按钮',
@@ -43,7 +44,9 @@ const list = [
             color: '',
             backgroundColor: '',
             left: '',
-            top: ''
+            top: '',
+            right: '',
+            bottom: ''
         }
     }
 ]
