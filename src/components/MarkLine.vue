@@ -60,7 +60,6 @@ const showLine = (isDownward: boolean, isRightward: boolean) => {
     const curComponentStyle = getComponentRotatedStyle(curComponent.value!.style)
     const curWidth = curComponentStyle.width
     const curHeight = curComponentStyle.height
-    console.log(curComponentStyle)
     const curComponentHalfWidth = curWidth! / 2
     const curComponentHalfHeight = curHeight! / 2
     hideLine()
@@ -68,7 +67,6 @@ const showLine = (isDownward: boolean, isRightward: boolean) => {
         if (component === curComponent.value) return
         const componentStyle = getComponentRotatedStyle(component.style)
         const { top, left, bottom, right } = componentStyle
-        // console.log(top, left, bottom, right)
         const componentHalfWidth = componentStyle.width / 2
         const componentHalfHeight = componentStyle.height / 2
         const conditions = {

@@ -6,7 +6,13 @@
                 <ComponentList></ComponentList>
             </div>
             <div class="center">
-                <div class="content" @drop="handleDrop" @dragover="handleDragOver">
+                <div
+                    class="content"
+                    @drop="handleDrop"
+                    @dragover="handleDragOver"
+                    @mousedown="handleMouseDown"
+                    @mouseup="deselectCurComponent"
+                >
                     <Editor ref="editor"></Editor>
                 </div>
             </div>
@@ -24,7 +30,11 @@ import { ref } from 'vue'
 import { useComponentStore } from '@/store'
 import customComponentList from '@/customComponent/customComponentList'
 import { deepClone, generateID } from '@/utils/utils'
+import { storeToRefs } from 'pinia'
 
+const store = useComponentStore()
+const { addComponent, setCurComponent, setClickComponentStatus } = store
+const { isClickComponent } = storeToRefs(store)
 const editor = ref<InstanceType<typeof Editor> | null>(null)
 
 const handleDrop = (e: DragEvent) => {
@@ -32,8 +42,6 @@ const handleDrop = (e: DragEvent) => {
     const index = Number(e.dataTransfer?.getData('index'))
     const rectInfo = editor.value?.$el.getBoundingClientRect()
     if (!Number.isNaN(index)) {
-        const store = useComponentStore()
-        const { addComponent } = store
         const component = deepClone(customComponentList[index])
         component.style.left = e.clientX - rectInfo.x + ''
         component.style.top = e.clientY - rectInfo.y + ''
@@ -45,6 +53,16 @@ const handleDragOver = (e: DragEvent) => {
     // 如果不阻止默认行为，drop事件不会触发。
     e.preventDefault()
     if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy'
+}
+
+const handleMouseDown = () => {
+    setClickComponentStatus(false)
+}
+
+const deselectCurComponent = () => {
+    if (!isClickComponent.value) {
+        setCurComponent({ component: null, index: null })
+    }
 }
 </script>
 <style lang="less" scoped>

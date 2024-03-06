@@ -17,5 +17,6 @@ export interface Style {
     top: string
     right: string
     bottom: string
+    rotate: string
 }
 export type Component = (typeof list)[number]

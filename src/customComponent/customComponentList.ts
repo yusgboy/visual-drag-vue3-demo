@@ -46,7 +46,8 @@ const list = [
             left: '',
             top: '',
             right: '',
-            bottom: ''
+            bottom: '',
+            rotate: ''
         }
     }
 ]

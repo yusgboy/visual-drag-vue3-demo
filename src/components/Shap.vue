@@ -1,5 +1,12 @@
 <template>
-    <div class="shap" @click="selectCurComponent" @mousedown="handleMouseDownOnShape">
+    <div ref="shap" class="shap" @click="selectCurComponent" @mousedown="handleMouseDownOnShape">
+        <SvgIcon
+            v-if="isActve()"
+            class="icon"
+            icon="icon-right-rotate"
+            color="#59c7f9"
+            @mousedown="handleRotate"
+        ></SvgIcon>
         <template v-if="isActve()">
             <div v-for="item in pointList" :key="item" class="shape-point" :style="getStyle(item)"></div>
         </template>
@@ -11,6 +18,8 @@
 import { useComponentStore } from '@/store'
 import type { Component } from '@/store/types'
 import emitter from '@/utils/mitt'
+import SvgIcon from '@/components/SvgIcon/SvgIcon.vue'
+import { ref } from 'vue'
 
 const pointList = ['lt', 't', 'rt', 'r', 'rb', 'b', 'lb', 'l']
 interface Props {
@@ -20,7 +29,7 @@ interface Props {
     index: number
 }
 const props = defineProps<Props>()
-const { setCurComponent, setShapeStyle } = useComponentStore()
+const { setCurComponent, setShapeStyle, setClickComponentStatus } = useComponentStore()
 const getStyle = (point: string): Props['defaultStyle'] => {
     const { width, height } = props.defaultStyle
     const hasT = /t/.test(point)
@@ -53,9 +62,12 @@ const getStyle = (point: string): Props['defaultStyle'] => {
 const isActve = () => {
     return props.active
 }
-const selectCurComponent = () => {}
+const selectCurComponent = (e: MouseEvent) => {}
 const handleMouseDownOnShape = (e: MouseEvent) => {
+    // 阻止事件冒泡到外层 触发外层的事件
+    e.stopPropagation()
     setCurComponent({ component: props.element as Component, index: props.index })
+    setClickComponentStatus(true)
     const pos = { ...props.defaultStyle }
     // 鼠标起始位置
     const startX = e.clientX
@@ -79,12 +91,54 @@ const handleMouseDownOnShape = (e: MouseEvent) => {
     document.addEventListener('mousemove', move)
     document.addEventListener('mouseup', up)
 }
+const shap = ref<HTMLElement | null>(null)
+
+const handleRotate = (e: MouseEvent) => {
+    setClickComponentStatus(true)
+    e.stopPropagation()
+    const pos = { ...props.defaultStyle }
+    const startX = e.clientX
+    const startY = e.clientY
+    const startRotate = pos.rotate - 0
+    const rectInfo = shap.value?.getBoundingClientRect()
+    const centerX = rectInfo!.left + rectInfo!.width / 2
+    const centerY = rectInfo!.top + rectInfo!.height / 2
+    // 旋转前角度
+    const rotateDegreeBefore = Math.atan2(startY - centerY, startX - centerX) * (180 / Math.PI)
+    const move = (moveEvent: MouseEvent) => {
+        const curX = moveEvent.clientX
+        const curY = moveEvent.clientY
+        // 旋转后角度
+        const rotateDegreeAfter = Math.atan2(curY - centerY, curX - centerX) * (180 / Math.PI)
+        pos.rotate = startRotate + rotateDegreeAfter - rotateDegreeBefore
+        setShapeStyle(pos)
+    }
+    const up = () => {
+        document.removeEventListener('mousemove', move)
+        document.removeEventListener('mouseup', up)
+    }
+    document.addEventListener('mousemove', move)
+    document.addEventListener('mouseup', up)
+}
 </script>
 
 <style scoped lang="less">
 .shap {
     position: absolute;
     outline: 1px solid skyblue;
+}
+
+.icon {
+    position: absolute;
+    top: 0;
+    top: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: grab;
+
+    &:active {
+        cursor: grabbing;
+    }
 }
 
 .shape-point {

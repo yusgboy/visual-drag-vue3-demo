@@ -1,12 +1,14 @@
 import { defineStore } from 'pinia'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
+
 import type { Component, Style } from './types'
 
 export const useComponentStore = defineStore('component', () => {
     const componentData: Ref<Component[]> = ref([])
     const curComponent: Ref<null | Component> = ref(null)
     const curComponentIndex: Ref<null | number> = ref(null)
+    const isClickComponent = ref(false)
     const setComponentData = (data = []) => {
         componentData.value = data
     }
@@ -14,7 +16,13 @@ export const useComponentStore = defineStore('component', () => {
         component: Component
         index?: number
     }
-    const setCurComponent = ({ component, index }: SomeObj) => {
+    const setCurComponent = ({
+        component,
+        index
+    }: {
+        component: Component | null
+        index: number | undefined | null
+    }) => {
         curComponent.value = component
         if (index) curComponentIndex.value = index
     }
@@ -28,13 +36,13 @@ export const useComponentStore = defineStore('component', () => {
     interface ShapStyle {
         [key: string]: any
     }
-    const setShapeStyle = ({ top, left, width, height }: ShapStyle) => {
+    const setShapeStyle = ({ top, left, width, height, rotate }: ShapStyle) => {
         if (curComponent.value) {
             if (top !== undefined) curComponent.value.style.top = Math.round(top) + ''
             if (left !== undefined) curComponent.value.style.left = Math.round(left) + ''
             if (width) curComponent.value.style.width = Math.round(width)
             if (height) curComponent.value.style.height = Math.round(height)
-            // if (rotate) curComponent.value.style.rotate = Math.round(rotate)
+            if (rotate) curComponent.value.style.rotate = Math.round(rotate) + ''
         }
     }
 
@@ -43,13 +51,19 @@ export const useComponentStore = defineStore('component', () => {
             curComponent.value.style[key] = value
         }
     }
+
+    const setClickComponentStatus = (status: boolean) => {
+        isClickComponent.value = status
+    }
     return {
         componentData,
         curComponent,
+        isClickComponent,
         setComponentData,
         setCurComponent,
         addComponent,
         setShapeStyle,
-        setShapeSingleStyle
+        setShapeSingleStyle,
+        setClickComponentStatus
     }
 })

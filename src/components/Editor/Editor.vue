@@ -1,6 +1,7 @@
 <template>
     <div class="editor">
         <Grid :isDarkMode="false"></Grid>
+
         <Shap
             v-for="(item, index) in componentData"
             :key="index"
@@ -10,7 +11,12 @@
             :element="item"
             :index="index"
         >
-            <component :is="item.component" class="component" :propValue="item.propValue" :style="getStyle(item.style)">
+            <component
+                :is="item.component"
+                class="component"
+                :propValue="item.propValue"
+                :style="getStyle(item.style, true)"
+            >
             </component>
         </Shap>
         <MarkLine></MarkLine>

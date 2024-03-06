@@ -1,13 +1,27 @@
 type Style = Record<string, any>
-export function getStyle(style: Style) {
-    const styleArr = ['width', 'height', 'top', 'left']
+const needUnit = ['fontSize', 'width', 'height', 'top', 'left', 'borderWidth', 'letterSpacing', 'borderRadius']
+export function getStyle(style: Style, reversal: boolean = false) {
+    const styleArr = ['width', 'height', 'top', 'left', 'rotate']
     const resultStyle: Style = {}
-    styleArr.forEach((attr) => {
-        if (attr != 'rotate') {
-            resultStyle[attr] = style[attr] + 'px'
-        } else {
-        }
-    })
+    if (reversal) {
+        const arr = ['rotate']
+        Object.keys(style).forEach((key) => {
+            if (!arr.includes(key)) {
+                resultStyle[key] = style[key]
+                if (needUnit.includes(key)) {
+                    resultStyle[key] += 'px'
+                }
+            }
+        })
+    } else {
+        styleArr.forEach((attr) => {
+            if (attr != 'rotate') {
+                resultStyle[attr] = style[attr] + 'px'
+            } else {
+                resultStyle.transform = 'rotate(' + style[attr] + 'deg)'
+            }
+        })
+    }
     return resultStyle
 }
 
